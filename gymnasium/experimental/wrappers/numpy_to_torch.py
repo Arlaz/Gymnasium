@@ -9,6 +9,7 @@ from typing import Any, Iterable, Mapping, SupportsFloat, Union
 import numpy as np
 
 import gymnasium as gym
+import gymnasium.wrappers
 from gymnasium.core import WrapperActType, WrapperObsType
 from gymnasium.error import DependencyNotInstalled
 
@@ -85,6 +86,14 @@ def _numpy_iterable_to_torch(
 ) -> Iterable[Any]:
     """Converts an Iterable from numpy arrays to an iterable of PyTorch Tensors."""
     return type(value)(numpy_to_torch(v, device) for v in value)
+
+
+@numpy_to_torch.register(gymnasium.wrappers.LazyFrames)
+def _numpy_lazyframes_to_torch(
+    value: gymnasium.wrappers.LazyFrames, device: Device | None = None
+) -> torch.Tensor:
+    """Converts a gymnasium.wrappers.LazyFrames into a PyTorch Tensor."""
+    return _numpy_to_torch(np.array(value), device)
 
 
 class NumpyToTorchV0(gym.Wrapper, gym.utils.RecordConstructorArgs):
