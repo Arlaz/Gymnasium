@@ -4,7 +4,7 @@ from typing import Callable, Optional
 
 import gymnasium as gym
 from gymnasium import logger
-from gymnasium.wrappers.monitoring import video_recorder
+from ..monitoring import video_recorder
 
 
 def capped_cubic_video_schedule(episode_id: int) -> bool:

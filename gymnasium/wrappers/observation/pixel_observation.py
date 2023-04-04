@@ -13,7 +13,7 @@ from gymnasium import spaces
 STATE_KEY = "state"
 
 
-class PixelObservationWrapper(gym.ObservationWrapper, gym.utils.RecordConstructorArgs):
+class PixelObservation(gym.ObservationWrapper, gym.utils.RecordConstructorArgs):
     """Augment observations by pixel values.
 
     Observations of this wrapper will be dictionaries of images.
@@ -25,14 +25,14 @@ class PixelObservationWrapper(gym.ObservationWrapper, gym.utils.RecordConstructo
 
     Example:
         >>> import gymnasium as gym
-        >>> from gymnasium.wrappers import PixelObservationWrapper
-        >>> env = PixelObservationWrapper(gym.make("CarRacing-v2", render_mode="rgb_array"))
+        >>> from gymnasium.wrappers import PixelObservation
+        >>> env = PixelObservation(gym.make("CarRacing-v2", render_mode="rgb_array"))
         >>> obs, _ = env.reset()
         >>> obs.keys()
         odict_keys(['pixels'])
         >>> obs['pixels'].shape
         (400, 600, 3)
-        >>> env = PixelObservationWrapper(gym.make("CarRacing-v2", render_mode="rgb_array"), pixels_only=False)
+        >>> env = PixelObservation(gym.make("CarRacing-v2", render_mode="rgb_array"), pixels_only=False)
         >>> obs, _ = env.reset()
         >>> obs.keys()
         odict_keys(['state', 'pixels'])
@@ -40,7 +40,7 @@ class PixelObservationWrapper(gym.ObservationWrapper, gym.utils.RecordConstructo
         (96, 96, 3)
         >>> obs['pixels'].shape
         (400, 600, 3)
-        >>> env = PixelObservationWrapper(gym.make("CarRacing-v2", render_mode="rgb_array"), pixel_keys=('obs',))
+        >>> env = PixelObservation(gym.make("CarRacing-v2", render_mode="rgb_array"), pixel_keys=('obs',))
         >>> obs, _ = env.reset()
         >>> obs.keys()
         odict_keys(['obs'])
@@ -104,7 +104,7 @@ class PixelObservationWrapper(gym.ObservationWrapper, gym.utils.RecordConstructo
         default_render_kwargs = {}
         if not env.render_mode:
             raise AttributeError(
-                "env.render_mode must be specified to use PixelObservationWrapper:"
+                "env.render_mode must be specified to use PixelObservation:"
                 "`gymnasium.make(env_name, render_mode='rgb_array')`."
             )
 
